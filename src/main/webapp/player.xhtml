@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:h="http://xmlns.jcp.org/jsf/html"
+ xmlns:p="http://primefaces.org/ui"
+ xmlns:f="http://xmlns.jcp.org/jsf/core"
+ xmlns:c="http://java.sun.com/jsp/jstl/core"
+ xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+ 
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Espace Joueur</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Theme CSS -->
+    <link href="css/freelancer.min.css" rel="stylesheet" />
+
+    <!-- Custom Fonts -->
+    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+    
+	<style>
+	.Bimage{
+		background:url(#{request.contextPath}/resources/img/background2.jpg);
+		background-size:100%;
+	}
+	.Opacity{
+		opacity:0.85;
+	}
+ 	</style>
+    
+</h:head>
+
+<h:body class="Bimage">
+<h:outputStylesheet name="vendor/bootstrap/css/bootstrap.css" />
+<h:outputScript name="resources/vendor/bootstrap/js/bootstrap.js" />
+
+<ui:include src="navbar.xhtml" />
+
+<br></br>
+<br></br>
+<br></br>
+
+	<div class="container Opacity">
+	<div class="row">
+        <div class="col-lg-12 text-center">
+            <h2 style="color:white;">Espace Joueur</h2>
+            <hr class="star-primary" />
+        </div>
+    </div>
+        
+	<p:tabView id="tabView" dynamic="true" cache="true">
+	
+		<!-- ################################################ -->
+		<!-- Compte -->
+		<!-- ################################################ -->
+
+        <p:tab title="Compte">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2>Mon compte</h2>
+                <hr class="star-primary" />
+            </div>
+        </div>
+        
+        <div class="row">
+        	<div class="col-lg-8 col-lg-offset-2 form-group">
+         		<div class="panel panel-default">
+                    <div class="panel-heading">
+                       	Données
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+		            		<h:form id="formMonCompte">
+		            			<div class="form-group">
+			            			<h:outputText value="#{playerBean.selectedPlayer.pseudo}"/>
+		            			</div>
+		            			<div class="form-group">
+			            			<h:outputLabel value="Solde"/>
+			            			<br></br>
+			            			<h:outputText value="#{playerBean.selectedPlayer.solde}"/>
+			            			<br></br>
+			            			<div class="form-groupe">
+				            			<h:inputText required="true" requiredMessage="obligatoire" value="#{playerBean.soldeToAdd}"/>
+				            			<p:commandButton value="Ajouter de l'argent" action="#{playerBean.addToSolde}" type="btn btn-info"/>
+			            			</div>
+		            			</div>
+		            		</h:form>
+			           	</div>
+					</div>
+				</div>
+			</div>
+		</div>
+        </p:tab>
+        
+		<!-- ################################################ -->
+		<!-- Historique -->
+		<!-- ################################################ -->
+
+        <p:tab title="Historique">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2>Historique des paris</h2>
+                <hr class="star-primary" />
+            </div>
+        </div>
+        
+        <div class="row">
+			<div class="col-lg-12 form-group">
+         		<div class="panel panel-default">
+                    <div class="panel-heading">
+                       	Paris
+                    </div>
+                    <div class="panel-body">
+						<h:form id="formHistoriqueParis">
+						    <p:dataTable id="tbl" var="pari" value="#{playerBean.selectedPlayer.paris}" style="margin-bottom:20px">
+				
+						        <p:column>
+						            <f:facet name="header">
+						                <h:outputText value="Course" />
+						            </f:facet>
+						            <h:outputText value="#{pari.course.nom}" />
+						        </p:column>
+				
+						        <p:column>
+						            <f:facet name="header">
+						                <h:outputText value="Date" />
+						            </f:facet>
+						            <h:outputText value="#{pari.course.date}" />
+						        </p:column>
+						        
+						        <p:column>
+						            <f:facet name="header">
+						                <h:outputText value="Cheval" />
+						            </f:facet>
+						            <h:outputText value="#{pari.cheval.nom}" />
+						        </p:column>
+						        
+						        <p:column>
+						            <f:facet name="header">
+						                <h:outputText value="Mise" />
+						            </f:facet>
+						            <h:outputText value="#{pari.mise}" />
+						        </p:column>
+						        
+						        <p:column>
+						            <f:facet name="header">
+						                <h:outputText value="Gain" />
+						            </f:facet>
+						            <h:outputText value="#{pari.gain}" />
+						        </p:column>
+						        
+						    </p:dataTable>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</div>
+        </p:tab>
+        
+		<!-- ################################################ -->
+		<!-- Pari -->
+		<!-- ################################################ -->
+
+        <p:tab title="Parier">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2>Parier sur une course</h2>
+                <hr class="star-primary" />
+            </div>
+        </div>
+        
+        <div class="row">
+        
+			<div class="col-lg-12 form-group">
+         		<div class="panel panel-default">
+                    <div class="panel-heading">
+                       	Courses à venir
+                    </div>
+                    <div class="panel-body">
+						<h:form id="formListCourses">
+						    <p:dataTable id="tbl" var="course" value="#{playerBean.courses}">
+				
+						        <p:column sortBy="#{course.nom}">
+						            <f:facet name="header">
+						                <h:outputText value="Nom" />
+						            </f:facet>
+						            <h:outputText value="#{course.nom}" />
+						        </p:column>
+						 
+						        <p:column sortBy="#{course.date}">
+						            <f:facet name="header">
+						                <h:outputText value="Date"/>
+						            </f:facet>
+						            <h:outputText value="#{course.date}" />
+						        </p:column>
+						 
+						        <p:column sortBy="#{course.hippodrome.nom}">
+						            <f:facet name="header">
+										<h:outputText value="Hippodrome"/>
+						            </f:facet>
+						            <h:outputText value="#{course.hippodrome.nom}" />
+						        </p:column>
+						 
+						        <p:column>
+						            <f:facet name="header">
+						                <h:outputText value="Participants" />
+						            </f:facet>
+				                    <p:selectOneListbox scrollHeight="90">
+							            <f:selectItems itemLabel="#{cheval.nom}" var="cheval" value="#{course.chevaux}" />
+							        </p:selectOneListbox>
+						        </p:column>
+
+						        <p:column>
+						            <f:facet name="header">
+						                <h:outputText value="Parier sur cette course" />
+						            </f:facet>
+						            <p:commandButton action="#{playerBean.getOneCourse(course.idCourse)}" update=":formPariCourse:carDetail" oncomplete="PF('pariCourse').show()" icon="ui-icon-flag" title="View" />
+						        </p:column>
+
+						    </p:dataTable>  
+						</h:form>
+					</div>
+				</div>
+			</div>
+			
+        </div>
+        </p:tab>
+        
+    </p:tabView>
+    </div>
+
+	<p:dialog header="Parier" widgetVar="pariCourse" modal="true"
+		width="50%">
+		<h:form id="formPariCourse">
+			<p:outputPanel id="carDetail">
+
+				<div class="panel panel-default">
+					<div class="panel-heading">Course</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="form-group">
+								<h:outputText value="#{playerBean.course.nom}" />
+							</div>
+							<div class="form-group">
+								<h:outputText value="#{playerBean.course.date}" />
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel panel-default">
+					<div class="panel-heading">Hippodrome</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="form-group">
+								<h:outputText value="#{playerBean.course.hippodrome.nom}" />
+							</div>
+							<div class="form-group">
+								<h:outputLabel value="Longueur de piste :" />
+								<br></br>
+								<p:rating value="#{(playerBean.course.hippodrome.longueurPiste*10).intValue()}" stars="10" readonly="true" />
+							</div>
+							<div class="form-group">
+								<h:outputLabel value="Difficulte d'obstacle : " />
+								<br></br>
+								<p:rating value="#{(playerBean.course.hippodrome.obstacles*10).intValue()}" stars="10" readonly="true" />
+							</div>
+							<div class="form-group">
+								<h:outputLabel value="Dureté du sol : " />
+								<br></br>
+								<p:rating value="#{(10-(playerBean.course.hippodrome.natureSol*10)).intValue()}" stars="10" readonly="true" />
+							</div>
+							<div class="form-group">
+								<h:outputLabel value="Adresse : " />
+							</div>
+							<div class="form-group">
+								<h:outputText value="#{playerBean.course.hippodrome.adresse.numero} #{playerBean.course.hippodrome.adresse.voie}" />
+							</div>
+							<div class="form-group">
+								<h:outputText value="#{playerBean.course.hippodrome.adresse.codePostal} #{playerBean.course.hippodrome.adresse.ville}" />
+							</div>
+							<div class="form-group">
+								<h:outputText value="#{playerBean.course.hippodrome.adresse.pays}" />
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel panel-default">
+					<div class="panel-heading">Parier sur un cheval</div>
+					<div class="panel-body">
+						<div class="row">
+							<h:selectOneMenu class="form-control" value="#{playerBean.chevalPari}">
+								<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
+								<f:selectItems itemLabel="#{cheval.nom}" itemValue="#{cheval.idCheval}" var="cheval" value="#{playerBean.course.chevaux}"/>
+							</h:selectOneMenu>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<div class="row">
+							<h:outputLabel value="Mise : "/>
+							<h:inputText requiredMessage="obligatoire" required="true" value="#{playerBean.mise}"/>
+							<h:commandButton value="Parier" action="#{playerBean.parier}"/>
+						</div>
+					</div>
+				</div>
+
+			</p:outputPanel>
+		</h:form>
+	</p:dialog>
+
+	<!-- jQuery -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+
+    <!-- Contact Form JavaScript -->
+    <script src="js/jqBootstrapValidation.js"></script>
+    <script src="js/contact_me.js"></script>
+
+    <!-- Theme JavaScript -->
+    <script src="js/freelancer.min.js"></script>
+
+</h:body>
+</html>

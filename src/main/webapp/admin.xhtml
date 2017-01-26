@@ -1,0 +1,586 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:h="http://xmlns.jcp.org/jsf/html"
+ xmlns:p="http://primefaces.org/ui"
+ xmlns:f="http://xmlns.jcp.org/jsf/core"
+ xmlns:c="http://java.sun.com/jsp/jstl/core"
+ xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+ 
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Administrateur Course</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Theme CSS -->
+    <link href="css/freelancer.min.css" rel="stylesheet" />
+
+    <!-- Custom Fonts -->
+    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+    
+	<style>
+	.Bimage{
+		background:url(#{request.contextPath}/resources/img/background2.jpg);
+		background-size:100%;
+	}
+	.Opacity{
+		opacity:0.85;
+	}
+ 	</style>
+    
+</h:head>
+
+<h:body class="Bimage">
+<h:outputStylesheet name="vendor/bootstrap/css/bootstrap.css" />
+<h:outputScript name="resources/vendor/bootstrap/js/bootstrap.js" />
+
+<ui:include src="navbar.xhtml" />
+
+<br></br>
+<br></br>
+<br></br>
+
+	<div class="container Opacity">
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <h2 style="color:white;">Espace Administrateur</h2>
+            <hr class="star-primary" />
+        </div>
+    </div>
+	
+	<p:tabView id="tabView" dynamic="true" cache="true">
+	
+		<!-- ################################################ -->
+		<!-- Hippodrome -->
+		<!-- ################################################ -->
+
+        <p:tab title="Hippodromes">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2>Hippodromes</h2>
+                <hr class="star-primary" />
+            </div>
+        </div>
+        <h:form id="formAddHippodrome">
+         	<p:accordionPanel id="accordion" multiple="true" style="margin-bottom:20px;" activeIndex="-1">
+		   		<p:tab title="Ajouter un hippodrome">
+		       	<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+				<h:panelGrid columns="4" style="margin-bottom:10px" cellpadding="5">
+					<div class="form-groupe">
+						<p:outputLabel value="Nom : "></p:outputLabel>
+						<p:inputText id="hno" requiredMessage="obligatoire" required="true" value="#{adminBean.hippodromeNom}"></p:inputText>
+						<p:message for="hno" display="text" />
+					</div>
+					<br></br>
+					<div class="form-groupe">
+						<p:outputLabel value="Longueur de piste : "></p:outputLabel>
+    	       			<p:rating value="#{adminBean.hippodromeLongueurPiste}" stars="10" />
+    	       			<h:outputText value=""/>
+					</div>
+					<br></br>
+					<div class="form-groupe">
+						<p:outputLabel value="Difficulté des obstacles : "></p:outputLabel>
+        	   			<p:rating value="#{adminBean.hippodromeObstacles}" stars="10" />
+    	       			<h:outputText value=""/>
+					</div>
+					<br></br>
+					<div class="form-groupe">
+						<p:outputLabel value="Dureté du sol : "></p:outputLabel>
+	           			<p:rating value="#{adminBean.hippodromeNatureSol}" stars="10" />
+    	       			<h:outputText value=""/>
+					</div>
+					<br></br>
+					<div class="form-groupe">
+						<p:outputLabel value="Numéro de voie : "></p:outputLabel>
+						<p:inputText id="hnu" requiredMessage="obligatoire" required="true" value="#{adminBean.hippodromeNumero}"></p:inputText>
+						<p:message for="hnu" display="text" />
+					</div>
+					<br></br>
+					<div class="form-groupe">
+						<p:outputLabel value="Voie : "></p:outputLabel>
+						<p:inputText id="hvo" requiredMessage="obligatoire" required="true" value="#{adminBean.hippodromeVoie}"></p:inputText>
+						<p:message for="hvo" display="text" />
+					</div>
+					<br></br>
+					<div class="form-groupe">
+						<p:outputLabel value="Code Postal : "></p:outputLabel>
+						<p:inputText id="hcp" requiredMessage="obligatoire" required="true" value="#{adminBean.hippodromeCodePostal}"></p:inputText>
+						<p:message for="hcp" display="text" />
+					</div>
+					<br></br>
+					<div class="form-groupe">
+						<p:outputLabel value="Ville : "></p:outputLabel>
+						<p:inputText id="hvi" requiredMessage="obligatoire" required="true" value="#{adminBean.hippodromeVille}"></p:inputText>
+						<p:message for="hvi" display="text" />
+					</div>
+					<br></br>
+					<div class="form-groupe">
+						<p:outputLabel value="Pays : "></p:outputLabel>
+						<p:inputText id="hpa" requiredMessage="obligatoire" required="true" value="#{adminBean.hippodromePays}"></p:inputText>
+						<p:message for="hpa" display="text" />
+					</div>
+					<br></br>
+					<p:commandButton value="Enregistrer" action="#{adminBean.addHippodrome}" update="@form"/>
+				</h:panelGrid>
+				</p:tab>
+			</p:accordionPanel>
+		</h:form>
+						
+        <div class="row">
+        	<div class="form-group">
+         		<div class="panel panel-default">
+                    <div class="panel-heading">
+                       	Liste des Hippodromes
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+		            		<h:form id="formAdminHippodrome">
+								<p:dataTable id="tbl" var="hippodrome" value="#{adminBean.hippodromes}">
+					
+							        <p:column>
+							            <f:facet name="header">
+							                <h:outputText value="Nom" />
+							            </f:facet>
+							            <h:outputText value="#{hippodrome.nom}" />
+							        </p:column>
+							 
+							        <p:column>
+							            <f:facet name="header">
+							                <h:outputText value="Numéro"/>
+							            </f:facet>
+							            <h:outputText value="#{hippodrome.adresse.numero}" />
+							        </p:column>
+							 
+							        <p:column>
+							            <f:facet name="header">
+							                <h:outputText value="Voie" />
+							            </f:facet>
+							            <h:outputText value="#{hippodrome.adresse.voie}" />
+							        </p:column>
+							 
+							        <p:column>
+							            <f:facet name="header">
+							                <h:outputText value="Code Postal" />
+							            </f:facet>
+							            <h:outputText value="#{hippodrome.adresse.codePostal}" />
+							        </p:column>
+	
+							        <p:column>
+							            <f:facet name="header">
+							                <h:outputText value="Ville"/>
+							            </f:facet>
+							            <h:outputText value="#{hippodrome.adresse.ville}" />
+							        </p:column>
+							 
+							        <p:column>
+							            <f:facet name="header">
+							                <h:outputText value="Pays" />
+							            </f:facet>
+							            <h:outputText value="#{hippodrome.adresse.pays}" />
+							        </p:column>
+							 
+							        <p:column>
+							            <f:facet name="header">
+							                <h:outputText value="Lonueur de piste" />
+							            </f:facet>
+				            			<p:rating value="#{(hippodrome.longueurPiste*10).intValue()}" stars="10" readonly="true" />
+							        </p:column>
+	
+							        <p:column>
+							            <f:facet name="header">
+							                <h:outputText value="Difficulté d'obstacle" />
+							            </f:facet>
+				            			<p:rating value="#{(hippodrome.obstacles*10).intValue()}" stars="10" readonly="true" />
+							        </p:column>
+	
+							        <p:column>
+							            <f:facet name="header">
+							                <h:outputText value="Dureté du sol" />
+							            </f:facet>
+				            			<p:rating value="#{(10-(hippodrome.natureSol*10)).intValue()}" stars="10" readonly="true" />
+							        </p:column>
+	
+							        <p:column>
+							            <f:facet name="header">
+							                <h:outputText value="Modifier" />
+							            </f:facet>
+							            <p:commandButton action="#{adminBean.getOneHippodrome(hippodrome.idHippodrome)}" update=":formUpdateHippodrome:carDetail" oncomplete="PF('updateHippodrome').show()" icon="ui-icon-search" title="View" />
+							        </p:column>
+	
+							    </p:dataTable>
+		            		</h:form>
+			           	</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+        </p:tab>
+        
+		<!-- ################################################ -->
+		<!-- Cheval -->
+		<!-- ################################################ -->
+
+        <p:tab title="Chevaux">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2>Chevaux</h2>
+                <hr class="star-primary" />
+            </div>
+        </div>
+        <h:form id="formAddCheval">
+         	<p:accordionPanel id="accordion" multiple="true" style="margin-bottom:20px;" activeIndex="-1">
+		   		<p:tab title="Ajouter un Cheval">
+		       	<p:messages id="msgs" />
+				<h:panelGrid columns="3" style="margin-bottom:10px" cellpadding="5">
+					<div class="form-groupe">
+						<p:outputLabel value="Nom : "></p:outputLabel>
+						<p:inputText requiredMessage="obligatoire" required="true" value="#{adminBean.chevalNom}"></p:inputText>
+					</div>
+					<br></br>
+					<div class="form-groupe">
+						<p:outputLabel value="Race : "></p:outputLabel>
+						<h:selectOneMenu value="#{adminBean.chevalRace}" class="form-control">
+							<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
+							<f:selectItem itemLabel="Mustang" itemValue="Mustang" />
+							<f:selectItem itemLabel="Pur Sang Arabe" itemValue="PurSangArabe" />
+							<f:selectItem itemLabel="Selle Francais" itemValue="SelleFrancais" />
+						</h:selectOneMenu>
+					</div>
+					<br></br>
+					<div class="form-groupe">
+						<p:outputLabel value="Robe : "></p:outputLabel>
+						<p:inputText requiredMessage="obligatoire" required="true" value="#{adminBean.chevalRobe}"></p:inputText>
+					</div>
+					<br></br>
+					<p:commandButton value="Enregistrer" action="#{adminBean.addCheval}"/>
+				</h:panelGrid>
+				</p:tab>
+			</p:accordionPanel>
+		</h:form>
+        
+        <div class="row">
+        	<div class="form-group">
+         		<div class="panel panel-default">
+                    <div class="panel-heading">
+                       	Liste des Chevaux
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+		            		<h:form id="formAdminCheval">
+								<p:dataTable id="tbl" var="cheval" value="#{adminBean.chevaux}">
+					
+							        <p:column sortBy="#{cheval.nom}">
+							            <f:facet name="header">
+							                <h:outputText value="Nom" />
+							            </f:facet>
+							            <h:outputText value="#{cheval.nom}" />
+							        </p:column>
+							 
+							        <p:column sortBy="#{cheval.getClass().getSimpleName()}">
+							            <f:facet name="header">
+							                <h:outputText value="Race"/>
+							            </f:facet>
+							            <h:outputText value="#{cheval.getClass().getSimpleName()}" />
+							        </p:column>
+							 
+							        <p:column>
+							            <f:facet name="header">
+							                <h:outputText value="Robe" />
+							            </f:facet>
+							            <h:outputText value="#{cheval.robe}" />
+							        </p:column>
+							 
+							        <p:column sortBy="#{cheval.poids}">
+							            <f:facet name="header">
+							                <h:outputText value="Poids" />
+							            </f:facet>
+							            <h:outputText value="#{(1-cheval.poids)*500+50}" />
+							        </p:column>
+	
+							        <p:column sortBy="#{cheval.coeffVitesse}">
+							            <f:facet name="header">
+							                <h:outputText value="Vitesse"/>
+							            </f:facet>
+				            			<p:rating value="#{(cheval.coeffVitesse*10).intValue()}" readonly="true" />
+							        </p:column>
+							 
+							        <p:column sortBy="#{cheval.coeffEndurance}">
+							            <f:facet name="header">
+							                <h:outputText value="Endurance" />
+							            </f:facet>
+				            			<p:rating value="#{(cheval.coeffEndurance*10).intValue()}" readonly="true" />
+							        </p:column>
+							 
+							        <p:column sortBy="#{cheval.coeffAgilite}">
+							            <f:facet name="header">
+							                <h:outputText value="Agileté" />
+							            </f:facet>
+				            			<p:rating value="#{(cheval.coeffAgilite*10).intValue()}" readonly="true" />
+							        </p:column>
+	
+							        <p:column>
+							            <f:facet name="header">
+							                <h:outputText value="Modifier" />
+							            </f:facet>
+							            <p:commandButton action="#{adminBean.getOneCheval(cheval.idCheval)}" update=":formUpdateCheval:carDetail" oncomplete="PF('updateCheval').show()" icon="ui-icon-search" title="View" />
+							        </p:column>
+	
+							    </p:dataTable>
+		            		</h:form>
+			           	</div>
+					</div>
+				</div>
+			</div>
+						
+		</div>
+        </p:tab>
+        
+		<!-- ################################################ -->
+		<!-- Course -->
+		<!-- ################################################ -->
+
+        <p:tab title="Courses">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2>Courses non courues</h2>
+                <hr class="star-primary" />
+            </div>
+        </div>
+        <h:form id="formAddCourse">
+         	<p:accordionPanel id="accordion" multiple="true" style="margin-bottom:20px;" activeIndex="-1">
+		   		<p:tab title="Ajouter une course">
+		       	<p:messages id="msgs" />
+				<h:panelGrid columns="3" style="margin-bottom:10px" cellpadding="5">
+					<div class="form-groupe">
+						<p:outputLabel value="Nom : "></p:outputLabel>
+						<p:inputText requiredMessage="obligatoire" required="true" value="#{adminBean.courseNom}"></p:inputText>
+					</div>
+					<br></br>
+					<div class="form-groupe">
+						<p:outputLabel value="Date : "></p:outputLabel>
+						<p:calendar requiredMessage="obligatoire" required="true" value="#{adminBean.courseDate}"/>
+					</div>
+					<br></br>
+					<div class="form-groupe">
+						<p:outputLabel value="Hippodrome : "></p:outputLabel>
+						<h:selectOneMenu value="#{adminBean.courseHippodrome}" class="form-control">
+							<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
+							<f:selectItems itemLabel="#{hippodrome.nom}" itemValue="#{hippodrome.idHippodrome}" var="hippodrome" value="#{adminBean.hippodromes}"/>
+						</h:selectOneMenu>
+					</div>
+					<br></br>
+					<div class="form-groupe">
+						<p:outputLabel value="Chevaux : "></p:outputLabel>
+						<p:pickList value="#{adminBean.courseChevaux}" var="cheval" itemLabel="#{cheval.nom}" itemValue="#{cheval}" converter="converterCheval"/>
+					</div>
+					<br></br>
+					<p:commandButton value="Enregistrer" action="#{adminBean.addCourse}"/>
+				</h:panelGrid>
+				</p:tab>
+			</p:accordionPanel>
+		</h:form>
+        
+        <div class="row">
+        	<div class="form-group">
+         		<div class="panel panel-default">
+                    <div class="panel-heading">
+                       	Liste des courses non courues
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+		            		<h:form id="formAdminCourse">
+								<p:dataTable id="tbl" var="course" value="#{adminBean.courses}">
+					
+							        <p:column sortBy="#{course.nom}">
+							            <f:facet name="header">
+							                <h:outputText value="Nom" />
+							            </f:facet>
+							            <h:outputText value="#{course.nom}" />
+							        </p:column>
+							 
+							        <p:column sortBy="#{course.date}">
+							            <f:facet name="header">
+							                <h:outputText value="Date"/>
+							            </f:facet>
+							            <h:outputText value="#{course.date}" />
+							        </p:column>
+							 
+							        <p:column>
+							            <f:facet name="header">
+							                <h:outputText value="Total des mises" />
+							            </f:facet>
+							            <h:outputText value="#{course.totalMises}" />
+							        </p:column>
+
+							        <p:column>
+							            <f:facet name="header">
+							                <h:outputText value="Modifier" />
+							            </f:facet>
+							            <p:commandButton action="#{adminBean.getOneCourse(course.idCourse)}" update=":formUpdateCourse:carDetail" oncomplete="PF('updateCourse').show()" icon="ui-icon-search" title="View" />
+							        </p:column>
+	
+							    </p:dataTable>
+		            		</h:form>
+			           	</div>
+					</div>
+				</div>
+			</div>
+						
+		</div>
+        </p:tab>
+        
+		<!-- ################################################ -->
+		<!-- Courir -->
+		<!-- ################################################ -->
+
+        <p:tab title="Courir">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2>Courir une course</h2>
+                <hr class="star-primary" />
+            </div>
+        </div>
+        
+        <div class="row">
+        	<div class="col-lg-8 col-lg-offset-2 form-group">
+         		<div class="panel panel-default">
+                    <div class="panel-heading">
+                       	Courses
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+		            		<h:form id="formAdminCourir">
+		            			<h:selectOneMenu class="form-control" value="#{adminBean.idCourseToRun}">
+		            				<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
+		            				<f:selectItems itemLabel="#{course.nom}" itemValue="#{course.idCourse}" var="course" value="#{adminBean.courses}"/>
+		            			</h:selectOneMenu>
+		            			<br></br>
+		            			<h:commandButton value="GO !" action="#{adminBean.runCourse}" class="btn btn-info" />
+		            		</h:form>
+			           	</div>
+					</div>
+				</div>
+			</div>
+        
+        	<div class="col-lg-8 col-lg-offset-2 form-group">
+         		<div class="panel panel-default">
+                    <div class="panel-heading">
+                       	Resultats
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+		            		<h:form id="formAdminCourirResultats">
+							    <p:dataTable id="tbl" var="resultat" value="#{adminBean.resultats}" style="margin-bottom:20px" sortBy="#{resultat.position}">
+					
+							        <p:column>
+							            <f:facet name="header">
+							                <h:outputText value="Place" />
+							            </f:facet>
+							            <h:outputText value="#{resultat.position}" />
+							        </p:column>
+					
+							        <p:column>
+							            <f:facet name="header">
+							                <h:outputText value="Nom" />
+							            </f:facet>
+							            <h:outputText value="#{resultat.cheval.nom}" />
+							        </p:column>
+							        
+							    </p:dataTable>
+		            		</h:form>
+			           	</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+        </p:tab>
+        
+    </p:tabView>
+    </div>
+    
+  	<p:dialog header="Modification" widgetVar="updateHippodrome" modal="true">
+		<h:form id="formUpdateHippodrome">
+			<p:outputPanel id="carDetail" style="text-align:center;">
+            <p:panelGrid  columns="2">
+				<h:outputText value="Nom : "></h:outputText>
+				<h:inputText requiredMessage="obligatoire" required="true" value="#{adminBean.hippodrome.nom}"></h:inputText>
+				<h:outputText value="Numéro de voie : "></h:outputText>
+				<h:inputText requiredMessage="obligatoire" required="true" value="#{adminBean.hippodrome.adresse.numero}"></h:inputText>
+				<h:outputText value="Voie : "></h:outputText>
+				<p:inputText requiredMessage="obligatoire" required="true" value="#{adminBean.hippodrome.adresse.voie}"></p:inputText>
+				<h:outputText value="Code Postal : "></h:outputText>
+				<h:inputText requiredMessage="obligatoire" required="true" value="#{adminBean.hippodrome.adresse.codePostal}"></h:inputText>
+				<h:outputText value="Ville : "></h:outputText>
+				<h:inputText requiredMessage="obligatoire" required="true" value="#{adminBean.hippodrome.adresse.ville}"></h:inputText>
+				<h:outputText value="Pays : "></h:outputText>
+				<h:inputText requiredMessage="obligatoire" required="true" value="#{adminBean.hippodrome.adresse.pays}"></h:inputText>
+				<h:outputText value="Longueur de piste : "></h:outputText>
+          			<p:rating value="#{adminBean.hippodromeLongueurPiste}" stars="10"/>
+				<h:outputText value="Difficulté d'obstacle : "></h:outputText>
+          			<p:rating value="#{adminBean.hippodromeObstacles}" stars="10" />
+				<h:outputText value="Dureté du sol : "></h:outputText>
+          			<p:rating value="#{adminBean.hippodromeNatureSol}" stars="10" />
+				<h:commandButton value="Modifier" action="#{adminBean.updateHippodrome}" class="btn btn-info"/>
+			</p:panelGrid>
+			</p:outputPanel>
+		</h:form>
+	</p:dialog>
+	
+	<p:dialog header="Modification" widgetVar="updateCheval" modal="true">
+		<h:form id="formUpdateCheval">
+			<p:outputPanel id="carDetail" style="text-align:center;">
+            <p:panelGrid  columns="2">
+				<h:outputText value="Nom : "></h:outputText>
+				<h:inputText requiredMessage="obligatoire" required="true" value="#{adminBean.cheval.nom}"></h:inputText>
+				<h:outputText value="Robe : "></h:outputText>
+				<h:inputText requiredMessage="obligatoire" required="true" value="#{adminBean.cheval.robe}"></h:inputText>
+				<h:commandButton value="Modifier" action="#{adminBean.updateCheval}" class="btn btn-info"/>
+			</p:panelGrid>
+			</p:outputPanel>
+		</h:form>
+	</p:dialog>
+	
+	<p:dialog header="Modification" widgetVar="updateCourse" modal="true">
+		<h:form id="formUpdateCourse">
+			<p:outputPanel id="carDetail">
+            <p:panelGrid  columns="2">
+				<h:outputText value="Nom : "></h:outputText>
+				<h:inputText requiredMessage="obligatoire" required="true" value="#{adminBean.course.nom}"></h:inputText>
+				<h:outputText value="Date : "></h:outputText>
+				<p:calendar requiredMessage="obligatoire" required="true" value="#{adminBean.course.date}"></p:calendar>
+			</p:panelGrid>
+			<p:dataList value="#{adminBean.course.chevaux}" var="cheval">
+				<f:facet name="header">
+					Chevaux
+				</f:facet>
+				#{cheval.nom}
+			</p:dataList>
+			<h:commandButton value="Modifier" action="#{adminBean.updateCourse}" class="btn btn-info"/>
+			</p:outputPanel>
+		</h:form>
+	</p:dialog>
+
+    <!-- jQuery -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+
+    <!-- Contact Form JavaScript -->
+    <script src="js/jqBootstrapValidation.js"></script>
+    <script src="js/contact_me.js"></script>
+
+    <!-- Theme JavaScript -->
+    <script src="js/freelancer.min.js"></script>
+
+</h:body>
+</html>

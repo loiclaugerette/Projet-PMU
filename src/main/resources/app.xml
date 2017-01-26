@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd">
+
+    <mvc:resources mapping="/resources/**" location="/resources/" />
+	<context:component-scan base-package="com.adaming.myapp" />
+	
+	<mvc:resources mapping="/webjars/**" location="/webjars/"/>
+    
+    
+    
+    <!-- Injection of Cheval -->
+    <bean id="DaoChevalImpl" class="com.adaming.myapp.dao.DaoChevalImpl"></bean>
+    <bean id="ServiceChevalImpl" class="com.adaming.myapp.service.ServiceChevalImpl">
+        <property name="dao" ref="DaoChevalImpl"></property>
+    </bean>
+
+    <!-- Injection of Course -->
+    <bean id="DaoCourseImpl" class="com.adaming.myapp.dao.DaoCourseImpl"></bean>
+    <bean id="ServiceCourseImpl" class="com.adaming.myapp.service.ServiceCourseImpl">
+        <property name="dao" ref="DaoCourseImpl"></property>
+    </bean>
+
+    <!-- Injection of Hippodrome -->
+    <bean id="DaoHippodromeImpl" class="com.adaming.myapp.dao.DaoHippodromeImpl"></bean>
+    <bean id="ServiceHippodromeImpl" class="com.adaming.myapp.service.ServiceHippodromeImpl">
+        <property name="dao" ref="DaoHippodromeImpl"></property>
+    </bean>
+
+    <!-- Injection of Pari -->
+    <bean id="DaoPariImpl" class="com.adaming.myapp.dao.DaoPariImpl"></bean>
+    <bean id="ServicePariImpl" class="com.adaming.myapp.service.ServicePariImpl">
+        <property name="dao" ref="DaoPariImpl"></property>
+    </bean>
+
+    <!-- Injection of Personne -->
+    <bean id="DaoPersonneImpl" class="com.adaming.myapp.dao.DaoPersonneImpl"></bean>
+    <bean id="ServicePersonneImpl" class="com.adaming.myapp.service.ServicePersonneImpl">
+        <property name="dao" ref="DaoPersonneImpl"></property>
+    </bean>
+
+    <!-- Injection of Resultat -->
+    <bean id="DaoResultatImpl" class="com.adaming.myapp.dao.DaoResultatImpl"></bean>
+    <bean id="ServiceResultatImpl" class="com.adaming.myapp.service.ServiceResultatImpl">
+        <property name="dao" ref="DaoResultatImpl"></property>
+    </bean>
+
+
+
+	<bean id="datasource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+		<property name="url"
+			value="jdbc:mysql://localhost/projetpmu"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value=""></property>
+	</bean>
+	<bean id="PersistenceUnitManager"
+		class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
+		<property name="defaultDataSource" ref="datasource"></property>
+		<property name="persistenceXmlLocations">
+			<list>
+				<value>classpath*:META-INF/persistence.xml</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="EntityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitManager" ref="PersistenceUnitManager"></property>
+		<property name="persistenceUnitName" value="UP_JsfProjetPmu"></property>
+	</bean>
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="EntityManagerFactory"></property>
+	</bean>
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	<context:annotation-config></context:annotation-config>
+   
+</beans>
+

@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:h="http://xmlns.jcp.org/jsf/html"
+ xmlns:p="http://primefaces.org/ui"
+ xmlns:f="http://xmlns.jcp.org/jsf/core"
+ xmlns:c="http://java.sun.com/jsp/jstl/core"
+ xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+ 
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Nos Chevaux</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Theme CSS -->
+    <link href="css/freelancer.min.css" rel="stylesheet" />
+
+    <!-- Custom Fonts -->
+    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+    
+	<style>
+	.Bimage{
+		background:url(#{request.contextPath}/resources/img/background2.jpg);
+		background-size:100%;
+	}
+	.Opacity{
+		opacity:0.85;
+	}
+ 	</style>
+    
+</h:head>
+
+<h:body class="Bimage">
+<h:outputStylesheet name="vendor/bootstrap/css/bootstrap.css" />
+<h:outputScript name="resources/vendor/bootstrap/js/bootstrap.js" />
+
+<ui:include src="navbar.xhtml" />
+
+<br></br>
+<br></br>
+<br></br>
+
+	<div class="container Opacity">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 style="color:white;">
+                	<h:graphicImage name="img/arab-horse.png"/>
+                	Cheval
+                </h2>
+                <hr class="star-primary" />
+            </div>
+        </div>
+        
+        <div class="row">
+        
+			<div class="col-lg-6 col-lg-offset-3 form-group">
+				<h:form id="formSelectHippodrome">
+					<h:selectOneMenu class="form-control" value="#{chevalBean.selectedCheval}">
+						<f:ajax event="change" listener="#{chevalBean.selectCheval}" update=":formInfoChevalLeft,:formInfoChevalRight,:formListCourses" 
+							render=":formInfoChevalLeft :formInfoChevalRight :formListCourses"/>
+						<f:selectItem itemLabel="" itemValue="" noSelectionOption="true"/>
+						<f:selectItems itemLabel="#{cheval.nom}" itemValue="#{cheval.idCheval}" var="cheval" value="#{chevalBean.chevaux}"/>
+					</h:selectOneMenu>
+				</h:form>
+			</div>
+			
+			<br></br>
+			<br></br>
+        	
+        	<div class="col-lg-8 col-lg-offset-2 form-group">
+         		<div class="panel panel-default">
+                    <div class="panel-heading">
+                       	Données
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+			           		<div class="col-lg-6">
+			            		<h:form id="formInfoChevalLeft">
+			            			<div class="form-group">
+			            				<h:outputLabel value="Nom : " />
+				            			<br></br>
+				            			<h:outputText value="#{chevalBean.cheval.nom}"/>
+			            			</div>
+			            			<div class="form-group">
+				            			<h:outputLabel value="Race : "/>
+				            			<br></br>
+				            			<h:outputText value="#{chevalBean.cheval.getClass().getSimpleName()}"/>
+			            			</div>
+			            			<div class="form-group">
+				            			<h:outputLabel value="Robe : "/>
+				            			<br></br>
+				            			<h:outputText value="#{chevalBean.cheval.robe}"/>
+			            			</div>
+			            			<div class="form-group">
+				            			<h:outputLabel value="Poids : "/>
+				            			<br></br>
+				            			<h:outputText value="#{(1-chevalBean.cheval.poids)*500+50} kg" />
+			            			</div>
+			            		</h:form>
+			           		</div>
+			           		<div class="col-lg-6">
+			            		<h:form id="formInfoChevalRight">
+			            			<div class="form-group">
+				            			<h:outputLabel value="Performances :"/>
+			            			</div>
+			            			<div class="form-group">
+				            			<h:outputLabel value="Vitesse :"/>
+				            			<br></br>
+				            			<p:rating value="#{(chevalBean.cheval.coeffVitesse*10).intValue()}" readonly="true" />
+			            			</div>
+			            			<div class="form-group">
+				            			<h:outputLabel value="Endurance : "/>
+				            			<br></br>
+				            			<p:rating value="#{(chevalBean.cheval.coeffEndurance*10).intValue()}" readonly="true" />
+			            			</div>
+			            			<div class="form-group">
+				            			<h:outputLabel value="Agilité : "/>
+				            			<br></br>
+				            			<p:rating value="#{(chevalBean.cheval.coeffAgilite*10).intValue()}" readonly="true" />
+			            			</div>
+			            		</h:form>
+			           		</div>
+			           	</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-lg-12 form-group">
+         		<div class="panel panel-default">
+                    <div class="panel-heading">
+                       	Historique des courses
+                    </div>
+                    <div class="panel-body">
+						<h:form id="formListCourses">
+						    <p:dataTable id="tbl" var="resultat" value="#{chevalBean.resultats}">
+				
+						        <p:column>
+						            <f:facet name="header">
+						                <h:outputText value="Nom" />
+						            </f:facet>
+						            <h:outputText value="#{resultat.course.nom}" />
+						        </p:column>
+						 
+						        <p:column>
+						            <f:facet name="header">
+						                <h:outputText value="Date"/>
+						            </f:facet>
+						            <h:outputText value="#{resultat.course.date}" />
+						        </p:column>
+						 
+						        <p:column>
+						            <f:facet name="header">
+						                <h:outputText value="Hippodrome" />
+						            </f:facet>
+						            <h:outputText value="#{resultat.course.hippodrome.nom}" />
+						        </p:column>
+						 
+						        <p:column>
+						            <f:facet name="header">
+						                <h:outputText value="Place" />
+						            </f:facet>
+						            <h:outputText value="#{resultat.position}" />
+						        </p:column>
+
+						    </p:dataTable>  
+						</h:form>
+					</div>
+				</div>
+			</div>
+			
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+
+    <!-- Contact Form JavaScript -->
+    <script src="js/jqBootstrapValidation.js"></script>
+    <script src="js/contact_me.js"></script>
+
+    <!-- Theme JavaScript -->
+    <script src="js/freelancer.min.js"></script>
+
+</h:body>
+</html>
